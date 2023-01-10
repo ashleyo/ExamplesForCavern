@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Web;
 using static Direction;
 
 Console.WriteLine("Welcome to Tiny Cavern, a pretty crap game.");
@@ -34,6 +35,19 @@ while (true) {
 
 public enum Direction {
     North, East, South, West
+}
+
+public static class Extension {
+    public static Direction ToDirection(this string d) {
+        return d switch
+        {
+            "n" => North,
+            "e" => East,
+            "s" => South,
+            "w" => West,
+            _   => throw new NotImplementedException()
+        };
+    }
 }
 
 class Player {
