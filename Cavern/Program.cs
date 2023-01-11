@@ -1,10 +1,12 @@
-﻿using System.Text;
+﻿using Cavern;
+using System.Text;
 using System.Web;
 using static Direction;
 
 Console.WriteLine("Welcome to Tiny Cavern, a pretty crap game.");
 
 //real code
+/*
 Location L1 = new() { Description="the Entrance"};
 Location L2 = new() { Description="a small room"};
 Location L3 = new() { Description="the Exit"};
@@ -17,6 +19,9 @@ L3.MakeThisExit();
 
 Player PlayerOne = new() { Name="Steve", CurrentLocation=L1};
 Cavern.CommandDespatcher CD = new(PlayerOne);
+*/
+
+Game G = new Game();
 
 while (true) {
 
@@ -28,8 +33,8 @@ while (true) {
     }
 
     userInput = userInput.ToLower();
-    Cavern.Parser.CanonicalCommand command = Cavern.Parser.Parse(userInput);
-    string next = CD.ActionCommand(PlayerOne, command, userInput);    
+    Parser.CanonicalCommand command = Parser.Parse(userInput);
+    string next = G.Despatcher.ActionCommand(command, userInput);    
     Console.WriteLine(next);
 }
 
@@ -39,7 +44,7 @@ public enum Direction {
 
 public static class Extension {
     public static Direction ToDirection(this string d) {
-        return d switch
+        return d.Substring(0,1) switch
         {
             "n" => North,
             "e" => East,

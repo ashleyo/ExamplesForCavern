@@ -9,20 +9,22 @@ namespace Cavern {
 
     internal class CommandDespatcher {
         private static Dictionary<CanonicalCommand,Command> CommandTable = new();
+        private Game game;
 
         static internal void AddCommand(CanonicalCommand canonicalName, Command action) {
             CommandTable[canonicalName] = action;
         }        
         
-        internal CommandDespatcher(Player P) {
+        internal CommandDespatcher(Game G) {
+            game = G;
             CommandTable[Unknown] = (__,_) => "I don't know how to do that!";
             AddCommand(Move, Commands.Move);
             AddCommand(Look, Commands.Look);
             AddCommand(Help, Commands.Help);
         }
 
-        internal string  ActionCommand(Player P, CanonicalCommand C, string input) {
-            return CommandTable[C](P, input);
+        internal string  ActionCommand(CanonicalCommand C, string input) {
+            return CommandTable[C](game.P, input);
         }
 
         internal static class Commands {        
